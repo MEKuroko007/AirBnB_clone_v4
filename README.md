@@ -154,7 +154,7 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
-ESSALHI MUSTAPHA - [Github](https://github.com/MEKuroko007) / [Twitter](https://twitter.com/ESSALHI)  
+ESSALHI MUSTAPHA - [Github](https://github.com/MEKuroko007) / [Twitter](https://twitter.com/essalhi_007)  
 
 Second part of Airbnb: Joann Vuong
 ## License
