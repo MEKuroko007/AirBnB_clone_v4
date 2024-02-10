@@ -1,51 +1,55 @@
 $(document).ready(function () {
-  let checkedAmenities = {};
-  let checkedStates = {};
-  let checkedCities = {};
-  let checkedLocations = {};
+  let selectedAmenities = {};
+  let selectedStates = {};
+  let selectedCities = {};
+  let selectedLocations = {};
+  
   $(document).on('change', ".amenities > .popover > li > input[type='checkbox']", function () {
     if (this.checked) {
-      checkedAmenities[$(this).data('id')] = $(this).data('name');
+      selectedAmenities[$(this).data('id')] = $(this).data('name');
     } else {
-      delete checkedAmenities[$(this).data('id')];
+      delete selectedAmenities[$(this).data('id')];
     }
-    let lst = Object.values(checkedAmenities);
-    if (lst.length > 0) {
-      $('div.amenities > h4').text(Object.values(checkedAmenities).join(', '));
+    let amenitiesList = Object.values(selectedAmenities);
+    if (amenitiesList.length > 0) {
+      $('div.amenities > h4').text(Object.values(selectedAmenities).join(', '));
     } else {
       $('div.amenities > h4').html('&nbsp;');
     }
   });
+  
   $(document).on('change', ".locations > .popover > li > input[type='checkbox']", function () {
     if (this.checked) {
-      checkedStates[$(this).data('id')] = $(this).data('name');
-      checkedLocations[$(this).data('id')] = $(this).data('name');
+      selectedStates[$(this).data('id')] = $(this).data('name');
+      selectedLocations[$(this).data('id')] = $(this).data('name');
     } else {
-      delete checkedStates[$(this).data('id')];
-      delete checkedLocations[$(this).data('id')];
+      delete selectedStates[$(this).data('id')];
+      delete selectedLocations[$(this).data('id')];
     }
-    let lst = Object.values(checkedLocations);
-    if (lst.length > 0) {
-      $('div.locations > h4').text(lst.join(', '));
+    let locationsList = Object.values(selectedLocations);
+    if (locationsList.length > 0) {
+      $('div.locations > h4').text(locationsList.join(', '));
     } else {
       $('div.locations > h4').html('&nbsp;');
     }
   });
+  
   $(document).on('change', ".locations > .popover > li > ul > li > input[type='checkbox']", function () {
     if (this.checked) {
-      checkedCities[$(this).data('id')] = $(this).data('name');
-      checkedLocations[$(this).data('id')] = $(this).data('name');
+      selectedCities[$(this).data('id')] = $(this).data('name');
+      selectedLocations[$(this).data('id')] = $(this).data('name');
     } else {
-      delete checkedCities[$(this).data('id')];
-      delete checkedLocations[$(this).data('id')];
+      delete selectedCities[$(this).data('id')];
+      delete selectedLocations[$(this).data('id')];
     }
-    let lst = Object.values(checkedLocations);
-    if (lst.length > 0) {
-      $('div.locations > h4').text(lst.join(', '));
+    let locationsList = Object.values(selectedLocations);
+    if (locationsList.length > 0) {
+      $('div.locations > h4').text(locationsList.join(', '));
     } else {
       $('div.locations > h4').html('&nbsp;');
     }
   });
+  
   $.get('http://0.0.0.0:5001/api/v1/status/', function (data, textStatus) {
     if (textStatus === 'success') {
       if (data.status === 'OK') {
@@ -55,6 +59,7 @@ $(document).ready(function () {
       }
     }
   });
+  
   $.ajax({
     type: 'POST',
     url: 'http://0.0.0.0:5001/api/v1/places_search',
@@ -68,12 +73,13 @@ $(document).ready(function () {
       }
     }
   });
+  
   $('.filters > button').click(function () {
     $('.places > article').remove();
     $.ajax({
       type: 'POST',
       url: 'http://0.0.0.0:5001/api/v1/places_search',
-      data: JSON.stringify({'amenities': Object.keys(checkedAmenities), 'states': Object.keys(checkedStates), 'cities': Object.keys(checkedCities)}),
+      data: JSON.stringify({'amenities': Object.keys(selectedAmenities), 'states': Object.keys(selectedStates), 'cities': Object.keys(selectedCities)}),
       dataType: 'json',
       contentType: 'application/json',
       success: function (data) {
